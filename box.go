@@ -2,6 +2,7 @@ package golang_united_school_homework
 
 import (
 	"errors"
+	"fmt"
 )
 
 // box contains list of shapes and able to perform operations on them
@@ -22,9 +23,11 @@ func NewBox(shapesCapacity int) *box {
 func (b *box) AddShape(shape Shape) error {
 	if len(b.shapes) == b.shapesCapacity {
 		return errors.New("Exceeds capacity of the box")
+	} else {
+		b.shapes = append(b.shapes, shape)
+		return nil
 	}
-	b.shapes = append(b.shapes, shape)
-	return nil
+	
 }
 
 // GetByIndex allows getting shape by index
@@ -101,12 +104,15 @@ func (b *box) RemoveAllCircles() error {
 	for index, shape := range b.shapes {
 		switch shape.(type) {
 		case Circle:
+			fnt.Println("circle")
 			b.shapes = append(b.shapes[:index], b.shapes[index+1:]...)
 			numCircles++
 		default:
+			fmt.Println("not circle")
 			continue
 		}
 	}
+	fmt.Println(numCircles)
 	if numCircles == 0 {
 		return errors.New("No circles in the box")
 	}
