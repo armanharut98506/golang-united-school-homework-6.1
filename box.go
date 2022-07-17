@@ -109,7 +109,7 @@ func (b *box) RemoveAllCircles() error {
 			b.shapes = append(b.shapes[:index], b.shapes[index+1:]...)
 			numCircles++
 		default:
-			fmt.Printf("not circle %T", shape)
+			fmt.Printf("%s", reflect.TypeOf(shape))
 			continue
 		}
 	}
