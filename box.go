@@ -2,8 +2,6 @@ package golang_united_school_homework
 
 import (
 	"errors"
-	"fmt"
-	"reflect"
 )
 
 // box contains list of shapes and able to perform operations on them
@@ -28,13 +26,12 @@ func (b *box) AddShape(shape Shape) error {
 		b.shapes = append(b.shapes, shape)
 		return nil
 	}
-	
 }
 
 // GetByIndex allows getting shape by index
 // whether shape by index doesn't exist or index went out of the range, then it returns an error
 func (b *box) GetByIndex(i int) (Shape, error) {
-	if i >= len(b.shapes) {
+	if i >= len(b.shapes) || i < 0 {
 		return nil, errors.New("Index out of range")
 	}
 
@@ -49,7 +46,7 @@ func (b *box) GetByIndex(i int) (Shape, error) {
 // ExtractByIndex allows getting shape by index and removes this shape from the list.
 // whether shape by index doesn't exist or index went out of the range, then it returns an error
 func (b *box) ExtractByIndex(i int) (Shape, error) {
-	if i >= len(b.shapes) {
+	if i >= len(b.shapes) || i < 0 {
 		return nil, errors.New("Index out of range")
 	}
 
@@ -101,20 +98,24 @@ func (b *box) SumArea() float64 {
 // RemoveAllCircles removes all circles in the list
 // whether circles are not exist in the list, then returns an error
 func (b *box) RemoveAllCircles() error {
-	numCircles := 0
-	for index, shape := range b.shapes {
+	cpShapes := make([]Shape, 0, cap(b.shapes))
+	n := copy(cpShapes, b.shapes)
+	if n != len(b.shapes) {
+		return errors.New("Not all shapes copied successfully")
+	}
+
+	for _, shape := range b.shapes {
 		switch shape.(type) {
 		case *Circle:
-			fmt.Printf("circle %s\n", reflect.TypeOf(shape))
-			b.shapes = append(b.shapes[:index], b.shapes[index+1:]...)
-			numCircles++
-		default:
-			fmt.Printf("not circle %s\n", reflect.TypeOf(shape))
+//			b.shapes = append(b.shapes[:index], b.shapes[index+1:]...)
+//			numCircles++
 			continue
+		default:
+			cpShapes = append(cpShapes, shape)
 		}
 	}
-	fmt.Println(b.shapes)
-	fmt.Println(numCircles)
+	numCircles := len(b.shapes) - len(cpShapes)
+	b.shapes = cpShapes
 	if numCircles == 0 {
 		return errors.New("No circles in the box")
 	}
