@@ -113,6 +113,7 @@ func (b *box) RemoveAllCircles() error {
 			continue
 		}
 	}
+	fmt.Println(b.shapes)
 	fmt.Println(numCircles)
 	if numCircles == 0 {
 		return errors.New("No circles in the box")
