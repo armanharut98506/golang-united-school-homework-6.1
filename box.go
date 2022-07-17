@@ -31,7 +31,7 @@ func (b *box) AddShape(shape Shape) error {
 // whether shape by index doesn't exist or index went out of the range, then it returns an error
 func (b *box) GetByIndex(i int) (Shape, error) {
 	if i >= len(b.shapes) {
-		errors.New("Index out of range")
+		return nil, errors.New("Index out of range")
 	}
 
 	for index, _ := range b.shapes {
@@ -39,6 +39,7 @@ func (b *box) GetByIndex(i int) (Shape, error) {
 			return b.shapes[index], nil
 		}
 	}
+	return nil, nil
 }
 
 // ExtractByIndex allows getting shape by index and removes this shape from the list.
@@ -55,6 +56,7 @@ func (b *box) ExtractByIndex(i int) (Shape, error) {
 			return result, nil
 		}
 	}
+	return nil, nil
 }
 
 // ReplaceByIndex allows replacing shape by index and returns removed shape.
@@ -71,12 +73,13 @@ func (b *box) ReplaceByIndex(i int, shape Shape) (Shape, error) {
 			return result, nil
 		}
 	}
+	return nil, nil 
 }
 
 // SumPerimeter provides sum perimeter of all shapes in the list.
 func (b *box) SumPerimeter() float64 {
 	result := 0.0
-	for index, shape := range b.shapes {
+	for _, shape := range b.shapes {
 		result += shape.CalcPerimeter()
 	}
 	return result
@@ -85,23 +88,27 @@ func (b *box) SumPerimeter() float64 {
 // SumArea provides sum area of all shapes in the list.
 func (b *box) SumArea() float64 {
 	result := 0.0
-	for index, shape := range b.shapes {
+	for _, shape := range b.shapes {
 		result += shape.CalcArea()
 	}
 	return result
 }
 
 // RemoveAllCircles removes all circles in the list
-/* whether circles are not exist in the list, then returns an error
+// whether circles are not exist in the list, then returns an error
 func (b *box) RemoveAllCircles() error {
 	numCircles := 0
 	for index, shape := range b.shapes {
-		circle := shape.(Circle)
-		shapes = append(b.shapes[:index], b.shapes[index+1:]...)
-		umCircles++
+		switch shape.(type) {
+		case Circle:
+			b.shapes = append(b.shapes[:index], b.shapes[index+1:]...)
+			numCircles++
+		default:
+			continue
+		}
 	}
 	if numCircles == 0 {
 		return errors.New("No circles in the box")
 	}
+	return nil
 }
-*/
