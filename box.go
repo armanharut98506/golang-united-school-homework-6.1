@@ -2,7 +2,6 @@ package golang_united_school_homework
 
 import (
 	"errors"
-	"fmt"
 )
 
 // box contains list of shapes and able to perform operations on them
@@ -21,8 +20,7 @@ func NewBox(shapesCapacity int) *box {
 // AddShape adds shape to the box
 // returns the error in case it goes out of the shapesCapacity range.
 func (b *box) AddShape(shape Shape) error {
-	fmt.Println(len(b.shapes), cap(b.shapes))
-	if len(b.shapes) + 1 > cap(b.shapes) {
+	if len(b.shapes) == b.shapesCapacity {
 		return errors.New("Exceeds capacity of the box")
 	}
 	b.shapes = append(b.shapes, shape)
