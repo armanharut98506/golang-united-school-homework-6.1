@@ -2,6 +2,7 @@ package golang_united_school_homework
 
 import (
 	"errors"
+	"fmt"
 )
 
 // box contains list of shapes and able to perform operations on them
@@ -111,9 +112,11 @@ func (b *box) RemoveAllCircles() error {
 //			numCircles++
 			continue
 		default:
+			fmt.Printf("%T\n", shape)
 			cpShapes = append(cpShapes, shape)
 		}
 	}
+	fmt.Println(len(cpShapes), len(b.shapes))
 	numCircles := len(b.shapes) - len(cpShapes)
 	b.shapes = cpShapes
 	if numCircles == 0 {
