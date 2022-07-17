@@ -99,12 +99,7 @@ func (b *box) SumArea() float64 {
 // RemoveAllCircles removes all circles in the list
 // whether circles are not exist in the list, then returns an error
 func (b *box) RemoveAllCircles() error {
-	cpShapes := make([]Shape, 0, cap(b.shapes))
-	n := copy(cpShapes, b.shapes)
-	if n != len(b.shapes) {
-		return errors.New("Not all shapes copied successfully")
-	}
-
+	cpShapes := make([]Shape, 0)
 	for _, shape := range b.shapes {
 		switch shape.(type) {
 		case *Circle:
