@@ -3,6 +3,7 @@ package golang_united_school_homework
 import (
 	"errors"
 	"fmt"
+	"reflect"
 )
 
 // box contains list of shapes and able to perform operations on them
@@ -104,7 +105,7 @@ func (b *box) RemoveAllCircles() error {
 	for index, shape := range b.shapes {
 		switch shape.(type) {
 		case Circle:
-			fmt.Printf("circle %T", shape)
+			fmt.Printf("circle %s", reflect.TypeOf(shape))
 			b.shapes = append(b.shapes[:index], b.shapes[index+1:]...)
 			numCircles++
 		default:
