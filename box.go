@@ -104,7 +104,7 @@ func (b *box) RemoveAllCircles() error {
 	for index, shape := range b.shapes {
 		switch shape.(type) {
 		case Circle:
-			fnt.Println("circle")
+			fmt.Println("circle")
 			b.shapes = append(b.shapes[:index], b.shapes[index+1:]...)
 			numCircles++
 		default:
